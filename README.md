@@ -94,6 +94,8 @@ npm run dev
 
 Go to `http://localhost:5173` and explore Pouranik!
 
+---
+
 ## Contributing to Pouranik
 
 We welcome all contributors! Whether you're a beginner or experienced dev, there's always something you can do.
@@ -127,7 +129,11 @@ git push origin fix/your-feature-name
 
 > Make sure to **link your PR to the issue** mentioning **Fixes #issue_number** in the description.
 
+--- 
+
 ## Folder Structure
+will add soon!
+---
 
 ## Labels You’ll See
 
@@ -137,22 +143,31 @@ git push origin fix/your-feature-name
 - `bug`: Something’s not working
 - `documentation`: Improve README, guides, etc
 
+---
+
 ## Community and Support
 
 We’ll soon launch GitHub Discussions and a Discord channel for connecting, asking questions, and brainstorming features. Stay tuned!
+
+--- 
 
 ## License
 
 This project is licensed under the MIT License.
 
+---
+
 ## Inspired By...
 
 Every reader who ever felt seen in a story. Let's build this platform for curious minds across the world.
+
+---
 
 ## Maintainers
 
 - Maintained with ❤️ by the **Pouranik Core Team**  
   Lead: [@bhaktimore18](https://github.com/BhaktiMore18)
 
+---
 
 > ⭐ If you like this project, consider giving it a star and sharing it with friends!
