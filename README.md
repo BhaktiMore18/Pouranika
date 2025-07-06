@@ -151,12 +151,6 @@ We’ll soon launch GitHub Discussions and a Discord channel for connecting, ask
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
-
----
-
 ## Inspired By...
 
 Every reader who ever felt seen in a story. Let's build this platform for curious minds across the world.
