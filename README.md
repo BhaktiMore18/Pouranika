@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# Pouranika
-
-Pouranika : The storyteller
-=======
 # 📚Pouranik - Read. Share. Connect.
 
 Welcome to **Pouranik**, an open-source **book exploration and reading habit platform** for everyone who loves books and stories. Whether you're into self-help, fantasy, biographies, or technology, this is your cozy digital library and community corner.
@@ -134,11 +129,11 @@ git push origin fix/your-feature-name
 
 > Make sure to **link your PR to the issue** mentioning **Fixes #issue_number** in the description.
 
---- 
+---
 
 ## Folder Structure
-will add soon!
----
+
+## will add soon!
 
 ## Labels You’ll See
 
@@ -154,7 +149,7 @@ will add soon!
 
 We’ll soon launch GitHub Discussions and a Discord channel for connecting, asking questions, and brainstorming features. Stay tuned!
 
---- 
+---
 
 ## License
 
@@ -176,4 +171,3 @@ Every reader who ever felt seen in a story. Let's build this platform for curiou
 ---
 
 > ⭐ If you like this project, consider giving it a star and sharing it with friends!
->>>>>>> ee9501af42a53d777a10dbea35736e9d4d5408fa
