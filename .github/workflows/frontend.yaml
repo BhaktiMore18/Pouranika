@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    env: 
+        VITE_GOOGLE_BOOKS_API_KEY: ${{ secrets.VITE_GOOGLE_BOOKS_API_KEY }}
     name: Build Frontend
     runs-on: ubuntu-latest
     defaults:
