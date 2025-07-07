@@ -1,5 +1,5 @@
 export const searchBooks = async (query) => {
-  const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+  const apiKey = "AIzaSyD5fWCKJxYS5AZyC9yBEsXyAoDBQ90JiL8";
 
   // Check if API key is configured
   if (!apiKey || apiKey === "your_api_key_here") {
