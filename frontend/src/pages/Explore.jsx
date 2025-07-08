@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { searchBooks } from "../services/bookService";
 import BookCard from "../components/BookCard";
@@ -10,17 +10,8 @@ export default function Explore() {
   const [searched, setSearched] = useState(false);
   const [searchParams] = useSearchParams();
 
-  // Handle genre filtering from URL params
-  useEffect(() => {
-    const genreParam = searchParams.get("genre");
-    if (genreParam) {
-      setQuery(genreParam);
-      handleSearch({ preventDefault: () => {} }, genreParam);
-    }
-  }, [searchParams]);
-
-  const handleSearch = async (e, searchTerm = null) => {
-    e.preventDefault();
+  const handleSearch = useCallback(async (e, searchTerm = null) => {
+    if (e && e.preventDefault) e.preventDefault();
     const searchQuery = searchTerm || query;
     if (!searchQuery.trim()) return;
 
@@ -29,7 +20,16 @@ export default function Explore() {
     const results = await searchBooks(searchQuery);
     setBooks(results);
     setLoading(false);
-  };
+  }, [query]);
+
+  // Handle genre filtering from URL params
+  useEffect(() => {
+    const genreParam = searchParams.get("genre");
+    if (genreParam) {
+      setQuery(genreParam);
+      handleSearch({ preventDefault: () => {} }, genreParam);
+    }
+  }, [searchParams, handleSearch]);
 
   const popularSearches = [
     "Harry Potter",
