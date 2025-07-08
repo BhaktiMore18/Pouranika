@@ -160,6 +160,11 @@ body {
   background: white;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 420px;
+
 }
 
 .book-card-hover:hover {
