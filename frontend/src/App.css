@@ -241,7 +241,7 @@ body {
 }
 
 .input-modern::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(15, 14, 14, 0.89);
 }
 
 .input-modern:focus {
@@ -741,7 +741,7 @@ body {
 .main-content {
     flex: 1;
     width: 100%;
-    padding-top: calc(var(--navbar-height) + var(--content-offset));
+    /* padding-top: calc(var(--navbar-height) + var(--content-offset)); */
     min-height: calc(100vh - var(--navbar-height));
 }
 
@@ -930,3 +930,5 @@ body {
         padding: 10px 16px;
     }
 }
+
+

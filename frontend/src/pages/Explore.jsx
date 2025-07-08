@@ -79,16 +79,17 @@ export default function Explore() {
           <div className="glass-effect-strong card-modern border-medium">
             <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto">
               <div className="relative w-full">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl pointer-events-none">
-                  🔍
-                </span>
+                
                 <input
                   className="input-modern w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
-                  placeholder="Search for books, authors, topics, ISBN..."
+                  placeholder="Search for Books,Authors..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-2xl pointer-events-none">
+                  🔍
+                </span>
               </div>
               <button
                 type="submit"
