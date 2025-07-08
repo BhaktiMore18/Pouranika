@@ -1,0 +1,96 @@
+name: Greetings
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Greet New Contributors
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            if (context.eventName === 'issues') {
+              const issueBody = `**Hello there!** Thanks for opening this issue.
+              A maintainer will review your issue and respond soon. We appreciate you taking the time to improve Pouranik! 🌟
+              `;
+      
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: issueBody
+              });
+            }
+
+            if (context.eventName === 'pull_request_target') {
+              const prBody = `Thanks for your PR!🎉 We will review it soon... appreciate your effort in improving Pouranik.
+              Sit back and relax while the checks run and a maintainer takes a look!
+              `;
+      
+              await github.rest.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: prBody
+              });
+            }
+
+
+            // Greeting for new pull requests
+            if (context.eventName === 'pull_request_target') {
+              const prBody = `Thanks for your PR!🎉  We will review it soon... appreciate your effort in improving Pouranik.
+              Sit back and relax while the checks run and a maintainer takes a look!
+            `;
+
+              await github.rest.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: prBody
+              });
+            }
+
+  first-time-contributor:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Check if first-time contributor
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              creator: context.payload.pull_request.user.login,
+              state: 'all'
+            });
+          
+            const isFirstTime = pullRequests.length === 1;
+          
+            if (isFirstTime) {
+              const welcomeMessage = `*🎉 Congrats on your first contribution to Pouranik!*
+              Glad to have you here, feel free to ⭐ the repo, suggest ideas, or report bugs anytime.
+              Thanks for being part of the journey! 🙌
+              `;
+          
+              await github.rest.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: welcomeMessage
+              });
+            }

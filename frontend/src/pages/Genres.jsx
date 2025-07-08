@@ -128,15 +128,18 @@ export default function Genres() {
       <section className="section-spacing-small">
         <div className="container-modern">
           <div className="grid-modern grid-3">
-            {genres.map((genre, index) => (
-              <Link
-                key={genre.name}
-                to={`/explore?genre=${encodeURIComponent(genre.name)}`}
-                className="block no-underline slide-in-animation"
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onMouseEnter={() => setHoveredGenre(index)}
-                onMouseLeave={() => setHoveredGenre(null)}
-              >
+            {genres.map((genre, index) => {
+  const delay = `${index * 0.1}s`;
+
+  return (
+    <Link
+      key={genre.name}
+      to={`/explore?genre=${encodeURIComponent(genre.name)}`}
+      className="block no-underline slide-in-animation"
+      style={{ animationDelay: delay }}
+      onMouseEnter={() => setHoveredGenre(index)}
+      onMouseLeave={() => setHoveredGenre(null)}
+    >
                 <article className={`card-modern book-card-hover group relative overflow-hidden h-full ${
                   hoveredGenre === index ? 'scale-105' : ''
                 } transition-all duration-500`} style={{ 
@@ -190,7 +193,8 @@ export default function Genres() {
                   </div>
                 </article>
               </Link>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
@@ -248,7 +252,7 @@ export default function Genres() {
               'Romance Adventure',
               'Horror Mystery',
               'Technology Science'
-            ].map((combo, index) => (
+            ].map((combo) => (
               <Link
                 key={combo}
                 to={`/explore?genre=${encodeURIComponent(combo)}`}

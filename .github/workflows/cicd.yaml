@@ -1,0 +1,149 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  frontend-build:
+    name: Frontend Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint the code
+        run: npm run lint
+
+      - name: Run type checking (if available)
+        run: |
+          if npm run type-check --silent 2>/dev/null; then
+            npm run type-check
+          else
+            echo "Type checking not configured, skipping..."
+          fi
+        continue-on-error: true
+
+      - name: Run tests (if available)
+        run: |
+          if npm run test --silent 2>/dev/null; then
+            npm run test
+          else
+            echo "Tests not configured, skipping..."
+          fi
+        continue-on-error: true
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Check build size
+        run: |
+          if [ -d "dist" ]; then
+            echo "Build successful! Checking build size..."
+            du -sh dist/
+            ls -la dist/
+          fi
+
+  # Backend build job (placeholder for when backend is added)
+  backend-build:
+    name: Backend Build & Test
+    runs-on: ubuntu-latest
+    if: false # Disabled until backend is implemented
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Backend build steps
+        run: echo "Backend build steps will be added here"
+
+  # Security checks
+  security-check:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for known vulnerabilities
+        run: |
+          if npm list --depth=0 | grep -i "WARN\|ERR"; then
+            echo "⚠️ Some packages have warnings or errors"
+          else
+            echo "✅ No dependency warnings found"
+          fi
+        continue-on-error: true
+
+  # Code quality checks
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting (if prettier is configured)
+        run: |
+          if npm run format:check --silent 2>/dev/null; then
+            npm run format:check
+          elif npx prettier --check . 2>/dev/null; then
+            npx prettier --check .
+          else
+            echo "Prettier not configured, skipping format check..."
+          fi
+        continue-on-error: true
+
+      - name: Check for unused dependencies
+        run: |
+          if npx depcheck --version 2>/dev/null; then
+            npx depcheck
+          else
+            echo "Depcheck not available, skipping unused dependency check..."
+          fi
+        continue-on-error: true

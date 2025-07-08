@@ -1,39 +1,49 @@
-import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { searchBooks } from '../services/bookService';
-import BookCard from '../components/BookCard';
+import { useState, useEffect, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { searchBooks } from "../services/bookService";
+import BookCard from "../components/BookCard";
 
 export default function Explore() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [searchParams] = useSearchParams();
 
-  // Handle genre filtering from URL params
-  useEffect(() => {
-    const genreParam = searchParams.get('genre');
-    if (genreParam) {
-      setQuery(genreParam);
-      handleSearch({ preventDefault: () => {} }, genreParam);
-    }
-  }, [searchParams]);
-
-  const handleSearch = async (e, searchTerm = null) => {
-    e.preventDefault();
+  const handleSearch = useCallback(async (e, searchTerm = null) => {
+    if (e && e.preventDefault) e.preventDefault();
     const searchQuery = searchTerm || query;
     if (!searchQuery.trim()) return;
-    
+
     setLoading(true);
     setSearched(true);
     const results = await searchBooks(searchQuery);
     setBooks(results);
     setLoading(false);
-  };
+  }, [query]);
+
+  // Handle genre filtering from URL params
+  useEffect(() => {
+    const genreParam = searchParams.get("genre");
+    if (genreParam) {
+      setQuery(genreParam);
+      handleSearch({ preventDefault: () => {} }, genreParam);
+    }
+  }, [searchParams, handleSearch]);
 
   const popularSearches = [
-    'Harry Potter', 'Fiction', 'Self Help', 'Mystery', 'Romance', 'Science Fiction',
-    'Biography', 'History', 'Philosophy', 'Psychology', 'Business', 'Technology'
+    "Harry Potter",
+    "Fiction",
+    "Self Help",
+    "Mystery",
+    "Romance",
+    "Science Fiction",
+    "Biography",
+    "History",
+    "Philosophy",
+    "Psychology",
+    "Business",
+    "Technology",
   ];
 
   const handleQuickSearch = (term) => {
@@ -46,12 +56,19 @@ export default function Explore() {
       {/* Header Section */}
       <section className="page-hero section-spacing-small">
         <div className="container-modern text-center">
-          <h1 className="heading-primary mb-6 floating-animation" style={{ color: 'var(--primary-700)' }}>
+          <h1
+            className="heading-primary mb-6 floating-animation"
+            style={{ color: "var(--primary-700)" }}
+          >
             🔍 Explore Books
           </h1>
-          <p className="text-body-large max-w-3xl mx-auto mb-12" style={{ color: 'var(--text-secondary)' }}>
-            Search through millions of books and discover your next favorite read. 
-            Use our advanced search to find exactly what you're looking for.
+          <p
+            className="text-body-large max-w-3xl mx-auto mb-12"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Search through millions of books and discover your next favorite
+            read. Use our advanced search to find exactly what you're looking
+            for.
           </p>
         </div>
       </section>
@@ -60,27 +77,28 @@ export default function Explore() {
       <section className="pb-16">
         <div className="container-narrow">
           <div className="glass-effect-strong card-modern border-medium">
-            <form onSubmit={handleSearch} className="space-y-6">
-              <div className="relative">
+            <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto">
+              <div className="relative w-full">
+                
                 <input
-                  className="input-modern w-full pl-16"
+                  className="input-modern w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
-                  placeholder="Search for books, authors, topics, ISBN..."
+                  placeholder="Search for Books,Authors..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
-                <div className="absolute left-6 top-1/2 transform -translate-y-1/2 text-xl" style={{ color: 'var(--text-muted)' }}>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-2xl pointer-events-none">
                   🔍
-                </div>
+                </span>
               </div>
-              <button 
-                className={`button-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={loading}
+              <button
                 type="submit"
+                className={`mt-4 button-primary w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={loading}
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-3">
-                    <div className="spinner"></div>
+                    <div className="spinner" />
                     Searching through millions of books...
                   </span>
                 ) : (
@@ -93,8 +111,13 @@ export default function Explore() {
             </form>
 
             {/* Quick Filters */}
-            <div className="mt-8 pt-8 border-t" style={{ borderColor: 'var(--border-color)' }}>
-              <h3 className="font-semibold mb-6 text-center" style={{ color: 'var(--text-primary)' }}>Popular Searches</h3>
+            <div className="popular-searches-section">
+              <h3
+                className="font-semibold mb-6 text-center"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Popular Searches
+              </h3>
               <div className="search-button-grid">
                 {popularSearches.map((term) => (
                   <button
@@ -119,8 +142,16 @@ export default function Explore() {
             <div className="text-center py-16">
               <div className="glass-effect card-small max-w-md mx-auto border-subtle">
                 <div className="pulse-animation text-6xl mb-6">📚</div>
-                <h3 className="heading-tertiary mb-4" style={{ color: 'var(--text-primary)' }}>Searching Books</h3>
-                <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                <h3
+                  className="heading-tertiary mb-4"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Searching Books
+                </h3>
+                <p
+                  className="text-body"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Finding the perfect books for you...
                 </p>
                 <div className="mt-6">
@@ -137,18 +168,28 @@ export default function Explore() {
             <div className="text-center py-16">
               <div className="glass-effect card-modern max-w-lg mx-auto border-subtle">
                 <div className="text-6xl mb-6">😔</div>
-                <h3 className="heading-tertiary mb-4" style={{ color: 'var(--text-primary)' }}>No Books Found</h3>
-                <p className="text-body mb-6" style={{ color: 'var(--text-secondary)' }}>
-                  We couldn't find any books matching your search. Try different keywords or browse our popular genres.
+                <h3
+                  className="heading-tertiary mb-4"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  No Books Found
+                </h3>
+                <p
+                  className="text-body mb-6"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  We couldn't find any books matching your search. Try different
+                  keywords or browse our popular genres.
                 </p>
                 <div className="space-y-4">
                   <p className="text-small text-red-300 glass-effect p-3 rounded-xl border border-red-400 border-opacity-30">
-                    💡 Make sure your Google Books API key is properly configured
+                    💡 Make sure your Google Books API key is properly
+                    configured
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button 
+                    <button
                       onClick={() => {
-                        setQuery('');
+                        setQuery("");
                         setSearched(false);
                         setBooks([]);
                       }}
@@ -156,8 +197,8 @@ export default function Explore() {
                     >
                       Clear Search
                     </button>
-                    <Link 
-                      to="/genres" 
+                    <Link
+                      to="/genres"
                       className="button-primary no-underline text-center"
                     >
                       Browse Genres
@@ -172,17 +213,23 @@ export default function Explore() {
           {books.length > 0 && !loading && (
             <div>
               <div className="text-center mb-12">
-                <h2 className="heading-secondary mb-4" style={{ color: 'var(--primary-700)' }}>
+                <h2
+                  className="heading-secondary mb-4"
+                  style={{ color: "var(--primary-700)" }}
+                >
                   Found {books.length} Amazing Books! 📚
                 </h2>
-                <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                <p
+                  className="text-body"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   {query && `Results for "${query}"`}
                 </p>
               </div>
-              
+
               <div className="grid-modern grid-4">
                 {books.map((book, index) => (
-                  <div 
+                  <div
                     key={book.id}
                     className="slide-in-animation"
                     style={{ animationDelay: `${index * 0.1}s` }}
@@ -191,7 +238,7 @@ export default function Explore() {
                   </div>
                 ))}
               </div>
-              
+
               {/* Load More Button (Future Enhancement) */}
               <div className="text-center mt-16">
                 <div className="glass-effect card-small max-w-md mx-auto border-subtle">
@@ -215,18 +262,21 @@ export default function Explore() {
                   Start Your Book Discovery Journey
                 </h3>
                 <p className="text-body-large text-gray-300 mb-8 max-w-lg mx-auto">
-                  Enter a book title, author name, or topic in the search box above to begin exploring our vast collection.
+                  Enter a book title, author name, or topic in the search box
+                  above to begin exploring our vast collection.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { icon: '📚', label: '40M+ Books' },
-                    { icon: '🌍', label: '100+ Languages' },
-                    { icon: '⭐', label: 'Rated & Reviewed' },
-                    { icon: '🔗', label: 'Preview Links' }
+                    { icon: "📚", label: "40M+ Books" },
+                    { icon: "🌍", label: "100+ Languages" },
+                    { icon: "⭐", label: "Rated & Reviewed" },
+                    { icon: "🔗", label: "Preview Links" },
                   ].map((feature, index) => (
                     <div key={index} className="text-center p-4">
                       <div className="text-3xl mb-2">{feature.icon}</div>
-                      <div className="text-small text-gray-300">{feature.label}</div>
+                      <div className="text-small text-gray-300">
+                        {feature.label}
+                      </div>
                     </div>
                   ))}
                 </div>
