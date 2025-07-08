@@ -17,11 +17,11 @@ export default function BookCard({ book }) {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-purple-400 via-blue-400 to-cyan-400 flex items-center justify-center">
+            <div className="bg-gradient-to-br from-purple-400 via-blue-400 to-cyan-400 flex items-center justify-center">
               <img
                 src={cover}
                 alt={info.title}
-                className="w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full object-cover group-hover:scale-110 transition-transform duration-500 max-w-sm"
               />
             </div>
           )}

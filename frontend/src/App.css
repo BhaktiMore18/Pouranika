@@ -166,12 +166,16 @@ body {
 }
 
 .book-card-hover {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform: translateY(0) scale(1);
-    border-radius: 16px;
-    background: white;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(0) scale(1);
+  border-radius: 16px;
+  background: white;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 420px;
 }
 
 .book-card-hover:hover {
