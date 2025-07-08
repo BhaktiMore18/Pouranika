@@ -3,7 +3,7 @@ name: Greetings
 on:
   issues:
     types: [opened]
-  pull_request_target:
+  pull_request:
     types: [opened]
 
 jobs:
@@ -19,14 +19,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context } = require('@actions/github');
-
-            // Greeting for new issues
             if (context.eventName === 'issues') {
               const issueBody = `**Hello there!** Thanks for opening this issue.
-              A maintainer will review your issue and respond soon, We appreciate you taking the time to improve Pouranik! 🌟
-            `;
-
+              A maintainer will review your issue and respond soon. We appreciate you taking the time to improve Pouranik! 🌟
+              `;
+      
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -35,9 +32,23 @@ jobs:
               });
             }
 
+            if (context.eventName === 'pull_request_target') {
+              const prBody = `Thanks for your PR!🎉 We will review it soon... appreciate your effort in improving Pouranik.
+              Sit back and relax while the checks run and a maintainer takes a look!
+              `;
+      
+              await github.rest.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: prBody
+              });
+            }
+
+
             // Greeting for new pull requests
             if (context.eventName === 'pull_request_target') {
-              const prBody = `Thanks for your PR!🎉  We'll review it soon... appreciate your effort in improving Pouranik.
+              const prBody = `Thanks for your PR!🎉  We will review it soon... appreciate your effort in improving Pouranik.
               Sit back and relax while the checks run and a maintainer takes a look!
             `;
 
@@ -67,15 +78,15 @@ jobs:
               creator: context.payload.pull_request.user.login,
               state: 'all'
             });
-
+          
             const isFirstTime = pullRequests.length === 1;
-
+          
             if (isFirstTime) {
               const welcomeMessage = `*🎉 Congrats on your first contribution to Pouranik!*
               Glad to have you here, feel free to ⭐ the repo, suggest ideas, or report bugs anytime.
               Thanks for being part of the journey! 🙌
-            `;
-
+              `;
+          
               await github.rest.issues.createComment({
                 issue_number: context.payload.pull_request.number,
                 owner: context.repo.owner,
