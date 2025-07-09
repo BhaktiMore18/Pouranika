@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { searchBooks } from "../services/bookService";
 import BookCard from "../components/BookCard";
+import NoBookFound from "../components/NoBookFound";
 
 export default function Explore() {
   const [query, setQuery] = useState("");
@@ -27,7 +28,7 @@ export default function Explore() {
     const genreParam = searchParams.get("genre");
     if (genreParam) {
       setQuery(genreParam);
-      handleSearch({ preventDefault: () => {} }, genreParam);
+      handleSearch({ preventDefault: () => { } }, genreParam);
     }
   }, [searchParams, handleSearch]);
 
@@ -48,22 +49,22 @@ export default function Explore() {
 
   const handleQuickSearch = (term) => {
     setQuery(term);
-    handleSearch({ preventDefault: () => {} }, term);
+    handleSearch({ preventDefault: () => { } }, term);
   };
 
   return (
     <div className="min-h-screen">
       {/* Header Section */}
       <section className="page-hero section-spacing-small">
-        <div className="container-modern text-center">
+        <div className="container-modern">
           <h1
-            className="heading-primary mb-6 floating-animation"
+            className="heading-primary mb-6 font-bold floating-animation"
             style={{ color: "var(--primary-700)" }}
           >
             🔍 Explore Books
           </h1>
           <p
-            className="text-body-large max-w-3xl mx-auto mb-12"
+            className="text-body-large max-w-6xl mx-auto mb-12"
             style={{ color: "var(--text-secondary)" }}
           >
             Search through millions of books and discover your next favorite
@@ -79,7 +80,6 @@ export default function Explore() {
           <div className="glass-effect-strong card-modern border-medium">
             <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto">
               <div className="relative w-full">
-                
                 <input
                   className="input-modern w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
@@ -93,7 +93,7 @@ export default function Explore() {
               </div>
               <button
                 type="submit"
-                className={`mt-4 button-primary w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`mt-14 button-primary w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                 disabled={loading}
               >
                 {loading ? (
@@ -136,7 +136,7 @@ export default function Explore() {
 
       {/* Results Section */}
       <section className="pb-16">
-        <div className="container-modern">
+        <div className="container-modern flex flex-col items-center">
           {/* Loading State */}
           {loading && (
             <div className="text-center py-16">
@@ -163,46 +163,52 @@ export default function Explore() {
             </div>
           )}
 
+
           {/* No Results */}
           {searched && !loading && books.length === 0 && (
             <div className="text-center py-16">
-              <div className="glass-effect card-modern max-w-lg mx-auto border-subtle">
-                <div className="text-6xl mb-6">😔</div>
-                <h3
-                  className="heading-tertiary mb-4"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  No Books Found
-                </h3>
-                <p
-                  className="text-body mb-6"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  We couldn't find any books matching your search. Try different
-                  keywords or browse our popular genres.
-                </p>
-                <div className="space-y-4">
-                  <p className="text-small text-red-300 glass-effect p-3 rounded-xl border border-red-400 border-opacity-30">
-                    💡 Make sure your Google Books API key is properly
-                    configured
+              <div className="glass-effect card-modern flex flex-col items-center md:flex-row max-w-5xl mx-auto border-subtle">
+                <div>
+                  <NoBookFound />
+                  <h3
+                    className="text-heading-2 mb-4"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    No Books Found
+                  </h3>
+                </div>
+                <div className="flex flex-col items-center justify-center p-8 gap-y-8">
+                  <p
+                    className="text-body mb-6"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    We couldn't find any books matching your search. Try different
+                    keywords or browse our popular genres.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button
-                      onClick={() => {
-                        setQuery("");
-                        setSearched(false);
-                        setBooks([]);
-                      }}
-                      className="button-secondary"
-                    >
-                      Clear Search
-                    </button>
-                    <Link
-                      to="/genres"
-                      className="button-primary no-underline text-center"
-                    >
-                      Browse Genres
-                    </Link>
+                  <div className="space-y-8">
+                    <p className="glass-effect text-xs !p-3 rounded-xl !border !border-red-400 border-opacity-30">
+                      💡 Make sure your Google Books API key is properly
+                      configured
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <button
+                        onClick={() => {
+                          setQuery("");
+                          setSearched(false);
+                          setBooks([]);
+                        }}
+                        className="button-secondary !hover:text-white"
+                      >
+                        Clear Search
+                      </button>
+                      <Link
+                        to="/genres"
+                        className="button-primary !hover:text-white no-underline text-center"
+                      >
+                        Browse Genres
+                      </Link>
+                    </div>
+
                   </div>
                 </div>
               </div>
