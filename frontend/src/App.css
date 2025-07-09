@@ -204,6 +204,7 @@ body {
 .button-primary:hover {
     background: var(--primary-700);
     transform: translateY(-1px);
+    color: white;
     box-shadow: var(--shadow-md);
 }
 
@@ -237,7 +238,7 @@ body {
     backdrop-filter: blur(12px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
-    padding: 20px 24px;
+    padding: 20px 24px 24px 64px;
     color: black;
     font-size: 16px;
     transition: all 0.3s ease;
