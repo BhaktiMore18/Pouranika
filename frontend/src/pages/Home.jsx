@@ -10,7 +10,7 @@ export default function Home() {
             <h1 className="text-6xl md:text-7xl font-bold mb-6" style={{ color: 'var(--primary-700)' }}>
               Welcome to <span style={{ color: 'var(--accent-orange)' }}>Pouranik</span>
             </h1>
-            <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xl max-w-7xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Discover amazing books, build lasting reading habits, and join a passionate community of book lovers. 
               Your next great read is just a search away.
             </p>

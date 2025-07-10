@@ -14,7 +14,7 @@ export default function BookCard({ book }) {
             <img
               src={imageUrl.replace("http:", "https:")}
               alt={info.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
             <div className="bg-gradient-to-br from-purple-400 via-blue-400 to-cyan-400 flex items-center justify-center">
